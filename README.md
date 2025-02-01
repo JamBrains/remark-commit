@@ -1,17 +1,24 @@
 # Remark Commit
 
-Minimal CLI to remark commit hashes on-chain to permanently persist them in the historical data of
-Polkadot. See [Why?](#why)
+CLI to remark commits on-chain to timestamp them in the historical data of Polkadot. It remarks a
+string containing the team, project name and commit hash. You can see it in action for account
+[1jam](https://collectives-polkadot.subscan.io/account/1jamyjYe97qPPtdeYVcUosPwc2Bv1Y6zNEMtzPW8a2z2abN):
+
+![](.assets/remarks.png)
 
 ## Usage
 
-It can be run like this to remark a specific commit hash:
+Install it via cargo:
 
 ```sh
 cargo install remark-commit --locked
+```
 
+...and run:
+
+```sh
 SEED="${{ secrets.POLKADOT_SEED }}" \
-polkadot-remark-commit \
+remark-commit \
 	--org "JamBrains" \
 	--repo "graymatter" \
 	--commit "93916fb33655de9cb0eb4882e7e2036dbd4c32b9"
@@ -20,9 +27,22 @@ polkadot-remark-commit \
 ## GitHub CI
 
 Find a full GitHub CI example that you can copy&paste to your repo in
-[remark.yml](./.github/workflows/remark.yml). Ensure that you add a secret key or other seed as
-`POLKADOT_SEED` secret to your repo. You can use [subkey](https://crates.io/crates/subkey) to
-locally generate a secret.
+[remark.yml](./.github/workflows/remark.yml). The core part is this:
+
+```yaml
+- name: Remark Commit
+  run: |
+    cargo install remark-commit --locked
+    
+    SEED="${{ secrets.POLKADOT_SEED }}" \
+    remark-commit \
+    --org "JamBrains" \
+    --repo "remark-commit" \
+    --commit "${{ github.sha }}"
+```
+
+Ensure that you add a secret key or other seed as `POLKADOT_SEED` secret to your repo. You can use
+[subkey](https://crates.io/crates/subkey) to locally generate a secret.
 
 ![](.assets/gh_settings.png)
 
