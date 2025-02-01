@@ -1,0 +1,26 @@
+name: Remark Commit
+
+on:
+  push:
+    branches: ["master"]
+
+jobs:
+  remark:
+    name: Build and test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Timestamp Commit
+        run: |
+          cargo install polkadot-remark-commit --locked
+
+          SEED="${{ secrets.POLKADOT_SEED }}" \
+          polkadot-remark-commit \
+            --org "JamBrains" \
+            --repo "graymatter" \
+            --commit "${{ github.sha }}"
