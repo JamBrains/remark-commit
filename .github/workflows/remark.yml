@@ -21,5 +21,5 @@ jobs:
 
           SEED="${{ secrets.POLKADOT_SEED }}" \
           remark-commit \
-            --org "JamBrains" --repo "remark-commit" \ # Change these if you copy
+            --org "JamBrains" --repo "remark-commit" \
             --commit "${{ github.sha }}"
