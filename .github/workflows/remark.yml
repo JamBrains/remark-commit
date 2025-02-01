@@ -16,10 +16,11 @@ jobs:
           fetch-depth: 1
 
       - name: Timestamp Commit
+        env:
+          SEED: ${{ secrets.POLKADOT_SEED }}
         run: |
           cargo install remark-commit --locked
 
-          SEED="${{ secrets.POLKADOT_SEED }}" \
           remark-commit \
             --org "JamBrains" --repo "remark-commit" \
             --commit "${{ github.sha }}"
