@@ -1,8 +1,8 @@
 # Remark Commit
 
 CLI to remark commits on-chain to timestamp them in the historical data of Polkadot. It remarks a
-string containing the team, project name and commit hash. You can see it in action for account
-[1jam](https://collectives-polkadot.subscan.io/account/1jamyjYe97qPPtdeYVcUosPwc2Bv1Y6zNEMtzPW8a2z2abN):
+string containing the team, project name and commit hash. You can see it in action for the
+[1jam](https://collectives-polkadot.subscan.io/account/1jamyjYe97qPPtdeYVcUosPwc2Bv1Y6zNEMtzPW8a2z2abN) account:
 
 ![](.assets/remarks.png)
 
@@ -17,8 +17,8 @@ cargo install remark-commit --locked
 ...and run:
 
 ```sh
-SEED="${{ secrets.POLKADOT_SEED }}" \
 remark-commit \
+    --seed "//Alice" \
 	--org "JamBrains" \
 	--repo "graymatter" \
 	--commit "93916fb33655de9cb0eb4882e7e2036dbd4c32b9"
@@ -32,7 +32,7 @@ Find a full GitHub CI example that you can copy&paste to your repo in
 ```yaml
 - name: Remark Commit
   run: |
-    cargo install remark-commit --locked
+    cargo install remark-commit --locked -q
     
     SEED="${{ secrets.POLKADOT_SEED }}" \
     remark-commit \
