@@ -17,10 +17,10 @@ jobs:
 
       - name: Timestamp Commit
         run: |
-          cargo install polkadot-remark-commit --locked
+          cargo install remark-commit --locked
 
           SEED="${{ secrets.POLKADOT_SEED }}" \
-          polkadot-remark-commit \
+          remark-commit \
             --org "JamBrains" \
-            --repo "graymatter" \
+            --repo "remark-commit" \
             --commit "${{ github.sha }}"

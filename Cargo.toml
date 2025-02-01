@@ -5,7 +5,7 @@ edition = "2021"
 homepage = "https://github.com/jambrains/remark-commit"
 repository = "https://github.com/jambrains/remark-commit"
 readme = "README.md"
-license = "GPL-3.0-only OR Apache-2.0"
+license = "GPL-3.0-only"
 
 [dependencies]
 clap = { version = "4.5.27", features = ["derive", "env"] }
