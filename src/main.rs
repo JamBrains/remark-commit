@@ -5,18 +5,22 @@
 //! SEED="//Alice" cargo run --org "JamBrains" --repo "graymatter" --commit "abcdef1234567890abcdef1234567890abcdef123"
 //! ```
 
+use clap::Parser;
+use dotenv::dotenv;
 use std::str::FromStr;
 use subxt::{
     dynamic::{tx, Value},
     OnlineClient, PolkadotConfig,
 };
 use subxt_signer::{sr25519::Keypair, SecretUri};
-use clap::Parser;
-use dotenv::dotenv;
 
 #[derive(Parser)]
 struct Args {
-    #[clap(long, env = "RPC", default_value = "wss://polkadot-collectives-rpc.polkadot.io")]
+    #[clap(
+        long,
+        env = "RPC",
+        default_value = "wss://polkadot-collectives-rpc.polkadot.io"
+    )]
     rpc: String,
 
     #[clap(short, long, env = "SEED")]
@@ -56,7 +60,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     log::info!(
         "Sending remark extrinsic from {} to {}",
-        keypair.public_key().to_account_id().to_string(),
+        keypair.public_key().to_account_id(),
         args.rpc
     );
 
@@ -77,13 +81,16 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                 log::info!("TX finalized in block {}", block.block_hash());
 
                 if args.rpc.contains("polkadot") && args.rpc.contains("collective") {
-                    println!("https://collectives-polkadot.subscan.io/block/{:?}", block.block_hash());
+                    println!(
+                        "https://collectives-polkadot.subscan.io/block/{:?}",
+                        block.block_hash()
+                    );
                 }
                 break;
             }
             Validated | Broadcasted { .. } | NoLongerInBestBlock => {}
             status => {
-                log::error!("Unexpected status: {:?}", status);
+                log::error!("Unexpected status: {status:?}");
             }
         }
     }
@@ -97,5 +104,5 @@ fn parse_commit(commit: &str) -> Result<String, Box<dyn std::error::Error>> {
         return Err("COMMIT must be 40 characters long".into());
     }
 
-    Ok(format!("0x{}", commit))
+    Ok(format!("0x{commit}"))
 }
