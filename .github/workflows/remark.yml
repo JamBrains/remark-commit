@@ -19,7 +19,7 @@ jobs:
         env:
           SEED: ${{ secrets.POLKADOT_SEED }}
         run: |
-          cargo install remark-commit --locked
+          cargo install remark-commit --locked -q
 
           remark-commit \
             --org "JamBrains" --repo "remark-commit" \
